@@ -45,7 +45,7 @@ CREATE TABLE Renglon (
     descuento float NOT NULL,
 CONSTRAINT PK_Renglon PRIMARY KEY (id_renglon));
 
-CREATE TABLE Producto (
+CREATE TABLE Producto ( 
 	id_producto serial,
     id_categoria int NOT NULL,
     nombre varchar(50) NOT NULL,
@@ -63,9 +63,8 @@ CREATE TABLE Caja (
 	inicio float NOT NULL,
 	fin float DEFAULT NULL,
     horaInicio timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    horaFin timestamp,
+    horaFin timestamp
 CONSTRAINT PK_Caja PRIMARY KEY (id_caja));
-
 
 --FOREIGN KEYS
 ALTER TABLE Factura ADD CONSTRAINT FK_Caja
@@ -111,3 +110,59 @@ ALTER TABLE Producto ADD CONSTRAINT FK_Producto
     NOT DEFERRABLE
     INITIALLY IMMEDIATE;
 
+------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------VERSION 1.1--------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE Login (
+	id_login serial,
+	usuario varchar(50) NOT NULL,
+	password varchar NOT NULL,
+CONSTRAINT PK_Login PRIMARY KEY (id_login));
+
+ALTER TABLE Caja 
+	ADD COLUMN cierreReal float, 
+	ADD COLUMN cierreFiscal float;
+
+ALTER TABLE Empleado
+	ADD COLUMN fechaBaja timestamp,
+	ADD COLUMN id_login int;
+
+ALTER TABLE Empleado
+	ADD CONSTRAINT FK_Login
+	FOREIGN KEY (id_login)
+	REFERENCES Login (id_login)
+	NOT DEFERRABLE
+	INITIALLY IMMEDIATE;
+
+ALTER TABLE Renglon 
+		DROP CONSTRAINT PK_Renglon,
+		ADD CONSTRAINT PK_Factura_Renglon
+		PRIMARY KEY (id_factura, id_renglon);
+
+ALTER TABLE Producto
+	ADD COLUMN activo boolean NOT NULL;
+
+CREATE TABLE Prioridad (
+	prioridad int);
+
+ALTER TABLE Prioridad
+	ADD CONSTRAINT PK_Producto
+	PRIMARY KEY (id_producto)
+	REFERENCES Producto (id_producto),
+
+	ADD CONSTRAINT PK_Categoria
+	PRIMARY KEY (id_categoria)
+	REFERENCES Categoria (id_categoria),
+
+	ADD CONSTRAINT FK_Producto
+	FOREIGN KEY (id_producto)
+	REFERENCES Producto (id_producto)
+	NOT DEFERRABLE
+	INITIALLY IMMEDIATE,
+
+	ADD CONSTRAINT FK_Categoria
+	FOREIGN KEY (id_categoria)
+	REFERENCES Categoria (id_categoria)
+	NOT DEFERRABLE
+	INITIALLY IMMEDIATE;

@@ -141,7 +141,7 @@ ALTER TABLE Renglon
 		PRIMARY KEY (id_factura, id_renglon);
 
 ALTER TABLE Producto
-	ADD COLUMN activo boolean NOT NULL;
+	ADD COLUMN activo boolean NOT NULL DEFAULT '1';
 
 CREATE TABLE Prioridad (
 	prioridad int);

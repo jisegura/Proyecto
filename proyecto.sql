@@ -121,8 +121,8 @@ CREATE TABLE Login (
 CONSTRAINT PK_Login PRIMARY KEY (id_login));
 
 ALTER TABLE Caja 
-	ADD COLUMN cierreReal float, 
-	ADD COLUMN cierreFiscal float;
+	ADD COLUMN cierreReal float	NOT NULL DEFAULT 0,
+	ADD COLUMN cierreFiscal float NOT NULL SET DEFAULT 0;
 
 ALTER TABLE Empleado
 	ADD COLUMN fechaBaja timestamp,
@@ -142,6 +142,11 @@ ALTER TABLE Renglon
 
 ALTER TABLE Producto
 	ADD COLUMN activo boolean NOT NULL DEFAULT '1';
+
+
+------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------VERSION 2.1--------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Prioridad (
 	prioridad int);

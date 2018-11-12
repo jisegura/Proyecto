@@ -122,7 +122,7 @@ CONSTRAINT PK_Login PRIMARY KEY (id_login));
 
 ALTER TABLE Caja 
 	ADD COLUMN cierreReal float	NOT NULL DEFAULT 0,
-	ADD COLUMN cierreFiscal float NOT NULL SET DEFAULT 0;
+	ADD COLUMN cierreFiscal float NOT NULL DEFAULT 0;
 
 ALTER TABLE Empleado
 	ADD COLUMN fechaBaja timestamp,

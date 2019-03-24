@@ -1,3 +1,4 @@
+
 --DROPS
 DROP TABLE IF EXISTS Renglon;
 DROP TABLE IF EXISTS Otros;
@@ -63,7 +64,7 @@ CREATE TABLE Caja (
 	inicio float NOT NULL,
 	fin float DEFAULT NULL,
     horaInicio timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    horaFin timestamp
+    horaFin timestamp,
 CONSTRAINT PK_Caja PRIMARY KEY (id_caja));
 
 --FOREIGN KEYS
@@ -149,25 +150,20 @@ ALTER TABLE Producto
 ------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Prioridad (
-	prioridad int);
+    id_producto int NOT NULL,
+    id_categoria int NOT NULL,
+    prioridad int,
+    CONSTRAINT PK_Prioridad PRIMARY KEY (id_producto, id_categoria));
 
-ALTER TABLE Prioridad
-	ADD CONSTRAINT PK_Producto
-	PRIMARY KEY (id_producto)
-	REFERENCES Producto (id_producto),
+ALTER TABLE Prioridad                                    
+    ADD CONSTRAINT FK_Producto
+    FOREIGN KEY (id_producto)
+    REFERENCES Producto (id_producto)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE,
 
-	ADD CONSTRAINT PK_Categoria
-	PRIMARY KEY (id_categoria)
-	REFERENCES Categoria (id_categoria),
-
-	ADD CONSTRAINT FK_Producto
-	FOREIGN KEY (id_producto)
-	REFERENCES Producto (id_producto)
-	NOT DEFERRABLE
-	INITIALLY IMMEDIATE,
-
-	ADD CONSTRAINT FK_Categoria
-	FOREIGN KEY (id_categoria)
-	REFERENCES Categoria (id_categoria)
-	NOT DEFERRABLE
-	INITIALLY IMMEDIATE;
+    ADD CONSTRAINT FK_Categoria
+    FOREIGN KEY (id_categoria)
+    REFERENCES Categoria (id_categoria)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE;
